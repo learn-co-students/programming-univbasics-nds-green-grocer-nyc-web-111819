@@ -38,15 +38,15 @@ def apply_coupons(cart, coupons)
   # REMEMBER: This method **should** update cart
   cart.each do |each_item|
   coupons.each do |coupon|
-    p coupon 
+
       discounted_item = {}
-      p each_item[:item] == coupon[:item] && each_item[:count] == coupon[:num]
-      if each_item[:item] == coupon[:item] && each_item[:count] == coupon[:num]
+      
+      if each_item[:item] == coupon[:item] && each_item[:count] >= coupon[:num]
         discounted_item[:item] = each_item[:item] + " W/COUPON"
         discounted_item[:price] = coupon[:cost] / coupon[:num]
         discounted_item[:count] = coupon[:num]
-        discounted_item[:clearance] = true
-        p discounted_item
+        discounted_item[:clearance] = each_item[:clearance]
+
         cart << discounted_item
         each_item[:count] -= coupon[:num]
     end
@@ -59,6 +59,20 @@ def apply_clearance(cart)
   # Consult README for inputs and outputs
   #
   # REMEMBER: This method **should** update cart
+  new_cart = []
+  cart.each do |each_item|
+    if each_item[:clearance] == true 
+      discounted_item = {}
+      discounted_item[:item] = each_item[:item]
+      discounted_item[:price] = each_item[:price] - each_item[:price]*(0.2).round(2)
+      discounted_item[:clearance] = each_item[:clearance]
+      discounted_item[:count] = each_item[:count]
+      new_cart << discounted_item
+    else 
+      new_cart << each_item
+  end
+end 
+return new_cart
 end
 
 def checkout(cart, coupons)
@@ -71,4 +85,17 @@ def checkout(cart, coupons)
   #
   # BEFORE it begins the work of calculating the total (or else you might have
   # some irritated customers
+  p cart
+  p coupons
+  new_cart = consolidate_cart(cart)
+  apply_coupons(new_cart, coupons)
+  newer_cart = apply_clearance(new_cart)
+  total = 0 
+  newer_cart.each do |each_item|
+    total += each_item[:price] * each_item[:count]
+  end
+  if total >= 100
+    total = total - total*(0.1)
+  end 
+  return total
 end
