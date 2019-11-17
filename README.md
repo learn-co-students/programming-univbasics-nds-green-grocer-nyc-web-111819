@@ -107,7 +107,7 @@ create.
   * `Array`: a collection of items to search through
 * Returns:
   * `nil` if no match is found
-  * the matching `Hash` if a match is found between the desired name and a given 
+  * the matching `Hash` if a match is found between the desired name and a given
     `Hash`'s :item key
 
 ### Write the `consolidate_cart` Method
@@ -235,8 +235,8 @@ it should update the cart with clearance applied to PEANUT BUTTER and SOY MILK:
 ]
 ```
 
-The `Float` class' built-in [round][round] method will be helpful here to make 
-sure your values align. `2.4900923090909029304` becomes `2.5` if we use it 
+The `Float` class' built-in [round][round] method will be helpful here to make
+sure your values align. `2.4900923090909029304` becomes `2.5` if we use it
 like so: `2.4900923090909029304.round(2)`
 
 ### Write the `checkout` Method
